@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.secret_key = "secret123"
 
 sdk = mercadopago.SDK("TU_ACCESS_TOKEN")
+
 RESET_KEY = "1234"
 
 # ------------------------
@@ -30,7 +31,6 @@ def init_db():
     )
     """)
 
-    # TABLA PAGOS 💰
     c.execute("""
     CREATE TABLE IF NOT EXISTS pagos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -111,7 +111,7 @@ def admin():
     return render_template("admin.html", users=users)
 
 # ------------------------
-# XP + USO DE CLASE
+# XP + CLASE
 # ------------------------
 @app.route("/add_xp/<username>/<int:xp>")
 def add_xp(username, xp):
@@ -133,21 +133,23 @@ def add_xp(username, xp):
     return redirect("/admin")
 
 # ------------------------
-# RESET TOTAL
+# RESET TOTAL 🔥
 # ------------------------
-@app.route("/reset")
-def reset():
+@app.route("/reset_all")
+def reset_all():
     if request.args.get("key") != RESET_KEY:
-        return "❌ Acceso denegado"
+        return "Acceso denegado"
 
     conn = get_db()
     c = conn.cursor()
+
     c.execute("DELETE FROM users")
     c.execute("DELETE FROM sqlite_sequence WHERE name='users'")
+
     conn.commit()
     conn.close()
 
-    return "✅ Base limpia"
+    return redirect("/admin")
 
 # ------------------------
 # RESET USER
@@ -162,7 +164,7 @@ def reset_user(username):
     return redirect("/admin")
 
 # ------------------------
-# PAGOS PACK
+# PAGOS
 # ------------------------
 @app.route("/pagar/<username>/<int:pack>")
 def pagar(username, pack):
@@ -174,16 +176,14 @@ def pagar(username, pack):
     elif pack == 16:
         precio = 35000
     else:
-        return "Error pack"
+        return "Error"
 
     preference_data = {
-        "items": [
-            {
-                "title": f"Pack {pack} clases - {username}",
-                "quantity": 1,
-                "unit_price": precio
-            }
-        ],
+        "items": [{
+            "title": f"Pack {pack} clases - {username}",
+            "quantity": 1,
+            "unit_price": precio
+        }],
         "metadata": {
             "username": username,
             "clases": pack
@@ -223,8 +223,6 @@ def webhook():
             c = conn.cursor()
 
             c.execute("UPDATE users SET clases = clases + ? WHERE username=?", (clases, username))
-
-            # guardar pago 💰
             c.execute("INSERT INTO pagos (username, pack, monto) VALUES (?, ?, ?)",
                       (username, clases, monto))
 
@@ -247,7 +245,7 @@ def ranking():
     return render_template("ranking.html", users=users)
 
 # ------------------------
-# FINANZAS 💰
+# FINANZAS
 # ------------------------
 @app.route("/finanzas")
 def finanzas():
