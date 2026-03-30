@@ -1,0 +1,18 @@
+<h2>💰 Panel Financiero</h2>
+
+<h3>Total: ${{total}}</h3>
+<p>Ventas: {{cantidad}}</p>
+
+<hr>
+
+<h3>Ventas por pack</h3>
+{% for p in packs %}
+<p>Pack {{p[0]}}: {{p[1]}}</p>
+{% endfor %}
+
+<hr>
+
+<h3>Historial</h3>
+{% for h in historial %}
+<p>{{h[0]}} - Pack {{h[1]}} - ${{h[2]}} - {{h[3]}}</p>
+{% endfor %}

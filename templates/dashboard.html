@@ -1,63 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Panel</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-      text-align: center;
-    }
+<h2>Bienvenido {{user}}</h2>
 
-    .card {
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 15px;
-      width: 300px;
-      margin: auto;
-    }
+<p>XP: {{xp}}</p>
+<p>Nivel: {{nivel}}</p>
+<p>Clases disponibles: {{clases}}</p>
 
-    .barra {
-      background: #444;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .progreso {
-      background: #00ff88;
-      height: 20px;
-      width: 0%;
-      transition: width 1s;
-    }
-  </style>
-</head>
-
-<body>
-
-<h2>🚀 Bienvenido {{user}}</h2>
-
-<div class="card">
-  <p>⭐ XP: {{xp}}</p>
-  <p>🏆 Nivel: {{nivel}}</p>
-
-  <h3>🎮 Progreso</h3>
-  <div class="barra">
-    <div id="barra" class="progreso"></div>
-  </div>
-</div>
-
-<br>
-
-<a href="/ranking">
-<button style="padding:10px; font-size:16px;">🏆 Ver Ranking</button>
-</a>
-
-<script>
-let progreso = {{xp}} % 100;
-document.getElementById("barra").style.width = progreso + "%";
-</script>
-
-</body>
-</html>
+<a href="/ranking">Ver ranking</a>

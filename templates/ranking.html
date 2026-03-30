@@ -1,30 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Ranking</title>
-</head>
-<body style="font-family:Arial; text-align:center;">
-
-<h2>🏆 Ranking de Alumnos</h2>
-
-<table border="1" style="margin:auto; padding:10px;">
-<tr>
-  <th>Posición</th>
-  <th>Alumno</th>
-  <th>XP</th>
-  <th>Nivel</th>
-</tr>
+<h2>Ranking</h2>
 
 {% for user in users %}
-<tr>
-  <td>{{ loop.index }}</td>
-  <td>{{ user[0] }}</td>
-  <td>{{ user[1] }}</td>
-  <td>{{ user[2] }}</td>
-</tr>
+<p>{{loop.index}} - {{user[0]}} - XP: {{user[1]}}</p>
 {% endfor %}
-
-</table>
-
-</body>
-</html>
